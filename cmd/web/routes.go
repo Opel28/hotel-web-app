@@ -16,7 +16,7 @@ func routes(app config.AppConfig) http.Handler {
 	mux.Use(middleware.Recoverer)
 	key := securecookie.GenerateRandomKey(32)
 	mux.Use(csrf.Protect(key, csrf.Secure(app.InProduction), csrf.HttpOnly(true), csrf.SameSite(csrf.SameSiteLaxMode)))
-	mux.Use(SessionLoad)
+	//mux.Use(SessionLoad)
 
 	mux.Get("/", handlers.Repo.HomeHandler)
 	mux.Get("/about", handlers.Repo.AboutHandler)

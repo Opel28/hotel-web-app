@@ -6,6 +6,14 @@
             <div class="col">
                 <h1>About Page</h1>
                 <h1>This came from the handler: {{index .StringMap "hello"}}</h1>
+
+                <p>
+                    {{if ne (index .StringMap "remote-ip") ""}}
+                        Your remote IP address is {{index .StringMap "remote-ip"}}
+                    {{else}}
+                        I don't know your IP address yet. Visit the  <a href="/">Homepage</a>
+                    {{end}}
+               </p>
             </div>
         </div>
     </div>

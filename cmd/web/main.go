@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
-	"github.com/gorilla/securecookie"
 	"github.com/gorilla/sessions"
 	"log"
 	"net/http"
+	"os"
 	"web-app/pkg/config"
 	"web-app/pkg/handlers"
 	"web-app/pkg/render"
@@ -15,10 +15,11 @@ const (
 	portNum = ":8080"
 )
 
+// TODO: Add encryptionKey
 var (
-	app     config.AppConfig
-	key     = securecookie.GenerateRandomKey(32)
-	session *sessions.CookieStore
+	app config.AppConfig
+	//key   = []byte(os.Getenv("HOTEL_SESSION_KEY"))
+	store = sessions.NewCookieStore([]byte(os.Getenv("HOTEL_SESSION_KEY")))
 )
 
 func main() {
@@ -26,9 +27,9 @@ func main() {
 	app.InProduction = false
 
 	// sessions setup and saving to configs
-	session = sessions.NewCookieStore(key)
-	session.Options = &sessions.Options{MaxAge: 20 * 60 * 60, HttpOnly: true, Secure: app.InProduction, SameSite: http.SameSiteLaxMode}
-	app.Session = session
+	//	store = sessions.NewCookieStore(key)
+	store.Options = &sessions.Options{MaxAge: 20 * 60 * 60, HttpOnly: true, Secure: app.InProduction, SameSite: http.SameSiteLaxMode}
+	app.Session = store
 
 	// using template cache
 	tc, err := render.CreateTemplateCache()

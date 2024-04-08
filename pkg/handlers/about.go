@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"net/http"
 	"web-app/pkg/models"
 	"web-app/pkg/render"
@@ -9,6 +10,20 @@ import (
 func (m *Repository) AboutHandler(w http.ResponseWriter, r *http.Request) {
 	stringMap := make(map[string]string)
 	stringMap["hello"] = "Hello World"
+
+	session, err := m.App.Session.Get(r, "session-name")
+	if err != nil {
+		http.Error(w, "Unable to get session!", http.StatusInternalServerError)
+		fmt.Println(err)
+	}
+
+	remoteIP := session.Values["remote-ip"]
+	//fmt.Println(remoteIP)
+	if remoteIP == nil {
+		remoteIP = ""
+	}
+
+	stringMap["remote-ip"] = remoteIP.(string)
 	render.RenderTemplate(w, "about", &models.TemplateData{
 		StringMap: stringMap,
 	})
