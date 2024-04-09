@@ -17,8 +17,7 @@ const (
 
 // TODO: Add encryptionKey
 var (
-	app config.AppConfig
-	//key   = []byte(os.Getenv("HOTEL_SESSION_KEY"))
+	app   config.AppConfig
 	store = sessions.NewCookieStore([]byte(os.Getenv("HOTEL_SESSION_KEY")))
 )
 
@@ -27,7 +26,6 @@ func main() {
 	app.InProduction = false
 
 	// sessions setup and saving to configs
-	//	store = sessions.NewCookieStore(key)
 	store.Options = &sessions.Options{MaxAge: 20 * 60 * 60, HttpOnly: true, Secure: app.InProduction, SameSite: http.SameSiteLaxMode}
 	app.Session = store
 

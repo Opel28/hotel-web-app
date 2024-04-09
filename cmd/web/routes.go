@@ -14,6 +14,7 @@ func routes(app config.AppConfig) http.Handler {
 	mux := chi.NewRouter()
 
 	mux.Use(middleware.Recoverer)
+
 	key := securecookie.GenerateRandomKey(32)
 	mux.Use(csrf.Protect(key, csrf.Secure(app.InProduction), csrf.HttpOnly(true), csrf.SameSite(csrf.SameSiteLaxMode)))
 	//mux.Use(SessionLoad)
