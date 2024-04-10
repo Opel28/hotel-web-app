@@ -25,6 +25,9 @@ func main() {
 	// set true when in production
 	app.InProduction = false
 
+	//key := securecookie.GenerateRandomKey(32)
+	//keyString := hex.EncodeToString(key)
+	//fmt.Println(keyString)
 	// sessions setup and saving to configs
 	store.Options = &sessions.Options{MaxAge: 20 * 60 * 60, HttpOnly: true, Secure: app.InProduction, SameSite: http.SameSiteLaxMode}
 	app.Session = store
